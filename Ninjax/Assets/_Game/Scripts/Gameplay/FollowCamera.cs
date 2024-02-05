@@ -14,7 +14,8 @@ namespace Gameplay
             Vector3 positionToFollow = _objectToFollow.position;
             Vector3 targetPosition = positionToFollow - _followOffset;
 
-            _cameraComponent.transform.position = Vector3.Lerp(_cameraComponent.transform.position, targetPosition, _followSpeed);
+            _cameraComponent.transform.position = Vector3.Lerp(_cameraComponent.transform.position, targetPosition,
+            _followSpeed * Time.deltaTime);
         }
     }
 }

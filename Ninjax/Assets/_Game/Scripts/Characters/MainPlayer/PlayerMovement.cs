@@ -1,4 +1,4 @@
-using System;
+using DG.Tweening;
 using UnityEngine;
 using UnityEngine.InputSystem;
 
@@ -33,12 +33,16 @@ namespace Characters.MainPlayer
 
         private void MoveStarted(InputAction.CallbackContext context)
         {
-            
+
         }
 
         private void MovePerformed(InputAction.CallbackContext context)
         {
             _movementDirecrtion = context.ReadValue<Vector2>();
+
+            Vector3 movementVector = new Vector3(_movementDirecrtion.x, 0, _movementDirecrtion.y);
+            transform.DOKill();
+            transform.DORotateQuaternion(Quaternion.LookRotation(movementVector, Vector3.up), 0.5f);
         }
 
         private void MoveCancelled(InputAction.CallbackContext context)
