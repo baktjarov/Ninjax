@@ -11,6 +11,9 @@ namespace StateMachine
         [Header("Components")]
         [SerializeField] private Transform _player;
         [SerializeField] private NavMeshAgent _agent;
+        [SerializeField] private Animator _animator;
+        [SerializeField] private AnimationEvents _animationEvents;
+
         [SerializeField] private List<PatrolPoint> _patrolPoints = new List<PatrolPoint>();
 
         [Header("Settings")]
@@ -41,6 +44,7 @@ namespace StateMachine
         {
             _agent.SetDestination(_patrolPoints[patrolPointIndex].transform.position);
             _agent.stoppingDistance = _patrolStoppingDistance;
+            _animationEvents.animator.SetFloat("Forward", _agent.velocity.magnitude);
 
             if (_agent.remainingDistance <= _patrolStoppingDistance)
             {
@@ -63,8 +67,9 @@ namespace StateMachine
                     _currentPatrolPointIndex = 0;
                 }
             }
-            
+
             _isIncreasingPatrolPointIndex = false;
+            _animator.SetFloat("Forward", 0);
         }
     }
 }
