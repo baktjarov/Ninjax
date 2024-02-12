@@ -6,7 +6,7 @@ namespace Gameplay
     {
         [SerializeField] private Transform _objectToFollow;
         [SerializeField] private Camera _cameraComponent;
-        [SerializeField] private float _followSpeed = 1;
+        [SerializeField] private float _followSpeed = 10;
         [SerializeField] private Vector3 _followOffset;
 
         private void Update()
@@ -14,8 +14,10 @@ namespace Gameplay
             Vector3 positionToFollow = _objectToFollow.position;
             Vector3 targetPosition = positionToFollow - _followOffset;
 
-            _cameraComponent.transform.position = Vector3.Lerp(_cameraComponent.transform.position, targetPosition,
-            _followSpeed * Time.deltaTime);
+            _cameraComponent.transform.position = Vector3.Lerp(
+                _cameraComponent.transform.position,
+                targetPosition,
+                _followSpeed * Time.deltaTime);
         }
     }
 }

@@ -1,6 +1,7 @@
+using Characters;
+using Gameplay;
 using System.Collections;
 using System.Collections.Generic;
-using Gameplay;
 using UnityEngine;
 using UnityEngine.AI;
 
@@ -9,11 +10,8 @@ namespace StateMachine
     public class Patrol_SMState : StateBase
     {
         [Header("Components")]
-        [SerializeField] private Transform _player;
+        [SerializeField] private Robot _robot;
         [SerializeField] private NavMeshAgent _agent;
-        [SerializeField] private Animator _animator;
-        [SerializeField] private AnimationEvents _animationEvents;
-
         [SerializeField] private List<PatrolPoint> _patrolPoints = new List<PatrolPoint>();
 
         [Header("Settings")]
@@ -23,14 +21,18 @@ namespace StateMachine
         [Header("States")]
         [SerializeField] private FindPlayer_SMState _findPlayerState;
 
-        private int _currentPatrolPointIndex = 0;
-        private bool _isIncreasingPatrolPointIndex = false;
+        [Header("Debug")]
+        [SerializeField] private int _currentPatrolPointIndex = 0;
+        [SerializeField] private bool _isIncreasingPatrolPointIndex = false;
 
         public override void Tick()
         {
             base.Tick();
 
-            if (Vector3.Distance(transform.position, _player.position) > _seePlayerDistance)
+            bool canSeePlayer = _robot.toAttack.Count > 0 &&
+                Vector3.Distance(transform.position, _robot.toAttack[0].transform.position) > _seePlayerDistance;
+
+            if (canSeePlayer == false)
             {
                 GoToPatrolPoint(_currentPatrolPointIndex);
             }
@@ -42,9 +44,10 @@ namespace StateMachine
 
         private void GoToPatrolPoint(int patrolPointIndex)
         {
-            _agent.SetDestination(_patrolPoints[patrolPointIndex].transform.position);
+            Vector3 targetPatrolPosition = _patrolPoints[patrolPointIndex].transform.position;
+
+            _agent.SetDestination(targetPatrolPosition);
             _agent.stoppingDistance = _patrolStoppingDistance;
-            _animationEvents.animator.SetFloat("Forward", _agent.velocity.magnitude);
 
             if (_agent.remainingDistance <= _patrolStoppingDistance)
             {
@@ -69,7 +72,6 @@ namespace StateMachine
             }
 
             _isIncreasingPatrolPointIndex = false;
-            _animator.SetFloat("Forward", 0);
         }
     }
 }

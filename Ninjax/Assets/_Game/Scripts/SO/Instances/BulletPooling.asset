@@ -9,9 +9,9 @@ MonoBehaviour:
   m_GameObject: {fileID: 0}
   m_Enabled: 1
   m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: b23a969d8ce89633b8b4316620324aed, type: 3}
+  m_Script: {fileID: 11500000, guid: 24756603a10fc9a469a087b688f296c1, type: 3}
   m_Name: BulletPooling
   m_EditorClassIdentifier: 
-  _targetObject: {fileID: 3155783852343363628, guid: cb878c84a378ec85090f15334fee3206,
+  _targetObject: {fileID: -1182267611390616427, guid: 3caaa5e306830e84ea492868d9430164,
     type: 3}
-  _spawnIfPoolEmpty: 3
+  _spawnIfPoolIsEmpty: 2

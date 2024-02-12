@@ -5,14 +5,15 @@ namespace StateMachine
     public class StateMachineBase : MonoBehaviour
     {
         [SerializeField] private StateBase _startState;
-        private StateBase _currentState;
+
+        [SerializeField] private StateBase _currentState;
 
         private void Start()
         {
             ChangeState(_startState);
         }
 
-        private void Update()
+        protected virtual void Update()
         {
             _currentState?.Tick();
 

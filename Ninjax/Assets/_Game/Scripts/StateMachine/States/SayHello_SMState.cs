@@ -6,8 +6,8 @@ namespace StateMachine
     public class SayHello_SMState : StateBase
     {
         [Header("Components")]
-        [SerializeField] private TextMeshProUGUI _messageText;
         [SerializeField] private Transform _player;
+        [SerializeField] private TextMeshProUGUI _messageText;
 
         [Header("Settings")]
         [SerializeField] private float _targetDistance = 7;

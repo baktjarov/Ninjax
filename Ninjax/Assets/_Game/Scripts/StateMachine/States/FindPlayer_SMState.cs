@@ -26,7 +26,7 @@ namespace StateMachine
             else
             {
                 _agent.SetDestination(_player.position);
-                _agent.stoppingDistance = _targetDistance / 2;
+                _agent.stoppingDistance = _targetDistance;
             }
         }
     }

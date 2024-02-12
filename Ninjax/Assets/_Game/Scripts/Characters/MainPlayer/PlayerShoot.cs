@@ -1,11 +1,10 @@
-using Characters.MainPlayer;
 using Gameplay;
 using Scriptables;
 using Sensors;
 using TagComponents;
 using UnityEngine;
 
-namespace Characters
+namespace Characters.MainPlayer
 {
     public class PlayerShoot : MonoBehaviour
     {
@@ -14,18 +13,14 @@ namespace Characters
         [SerializeField] private BulletPooling _bulletPooling;
         [SerializeField] private Transform _shootPosition;
         [SerializeField] private PlayerMovement _playerMovement;
-        [SerializeField] private Transform _arrow;
-        [SerializeField] private VisionSensor _visionSensor;
+        [SerializeField] private VisionSensor_Simple _visionSensor;
 
         [Header("Settings")]
-        [SerializeField] private string _onArrowTakenKey = "OnArrowTaken";
-        [SerializeField] private string _onShootAnimationKey = "OnShoot";
+        [SerializeField] private string _shootAnimationKey = "OnShoot";
         [SerializeField] private float _bulletSpeed = 250;
 
         [Header("Debug")]
         [SerializeField] private Robot_TagComponent _currentRobot;
-
-        private bool _arrowActive = true;
 
         private void OnEnable()
         {
@@ -45,6 +40,23 @@ namespace Characters
             _visionSensor.onExit -= OnSensorExit;
         }
 
+        private void Shoot()
+        {
+            _animationEvents.transform.LookAt(_currentRobot.transform.position);
+
+            var bullet = _bulletPooling.Get(_shootPosition.position, _shootPosition.rotation);
+            bullet.GetComponent<Rigidbody>().velocity = bullet.transform.forward * _bulletSpeed;
+            bullet.Inititlize(_bulletPooling);
+        }
+
+        private void OnAnimationEvent(string key)
+        {
+            if (_shootAnimationKey == key)
+            {
+                Shoot();
+            }
+        }
+
         private void OnMovementChanged(bool isMoving)
         {
             bool canShoot = isMoving == false && _currentRobot != null;
@@ -59,39 +71,6 @@ namespace Characters
             {
                 _animationEvents.animator.Play("PreAttack");
             }
-        }
-
-        private void OnAnimationEvent(string key)
-        {
-            if (_onShootAnimationKey == key)
-            {
-                Shoot();
-            }
-
-            if (_onArrowTakenKey == key)
-            {
-                SetArrowActive(false);
-            }
-            else
-            {
-                SetArrowActive(true);
-            }
-
-        }
-
-        private void Shoot()
-        {
-            _animationEvents.transform.LookAt(_currentRobot.transform.position);
-
-            var bullet = _bulletPooling.Get(_shootPosition.position, _shootPosition.rotation);
-            bullet.GetComponent<Rigidbody>().velocity = bullet.transform.forward * _bulletSpeed;
-            bullet.Initialize(_bulletPooling);
-        }
-
-        private void SetArrowActive(bool active)
-        {
-            _arrow.gameObject.SetActive(active);
-            _arrowActive = active;
         }
 
         private void OnSensorEnter(TagComponentBase tag)

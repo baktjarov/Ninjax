@@ -7,16 +7,16 @@ namespace Characters.MainPlayer
 {
     public class PlayerMovement : MonoBehaviour
     {
-        [Header("Components")]
         [SerializeField] private Rigidbody _rigidbody;
-        [SerializeField] private float _movementSpeed = 1;
         [SerializeField] private Animator _animator;
+        [SerializeField] private float _movementSpeed = 1f;
+
+        private InputHolder _inputHolder;
+
+        private Vector2 _movementDirection;
 
         [Header("Debug")]
         [SerializeField] public ValueSignal<bool> isMoving;
-
-        private InputHolder _inputHolder;
-        private Vector2 _movementDirecrtion;
 
         private void Awake()
         {
@@ -31,14 +31,13 @@ namespace Characters.MainPlayer
             _inputHolder.Player.Move.canceled += MoveCancelled;
         }
 
-        private void OnDisable()
+        private void Update()
         {
+            Vector3 moveDirection = new Vector3(
+                _movementDirection.x,
+                0,
+                _movementDirection.y);
 
-        }
-
-        private void FixedUpdate()
-        {
-            Vector3 moveDirection = new Vector3(_movementDirecrtion.x, 0, _movementDirecrtion.y);
             _rigidbody.velocity = moveDirection * _movementSpeed;
         }
 
@@ -49,20 +48,25 @@ namespace Characters.MainPlayer
 
         private void MovePerformed(InputAction.CallbackContext context)
         {
-            _movementDirecrtion = context.ReadValue<Vector2>();
+            _movementDirection = context.ReadValue<Vector2>();
 
-            Vector3 movementVector = new Vector3(_movementDirecrtion.x, 0, _movementDirecrtion.y);
+            Vector3 movementVector = new Vector3(_movementDirection.x, 0, _movementDirection.y);
             _animator.transform.DORotateQuaternion(Quaternion.LookRotation(movementVector, Vector3.up), 0.5f);
 
-            _animator.SetFloat("Forward", _movementDirecrtion.magnitude);
+            _animator.SetFloat("Forward", _movementDirection.magnitude);
         }
 
         private void MoveCancelled(InputAction.CallbackContext context)
         {
-            _movementDirecrtion = Vector2.zero;
+            _movementDirection = Vector2.zero;
             _animator.SetFloat("Forward", 0);
 
             isMoving.ChangeValue(false);
+        }
+
+        private void OnDisable()
+        {
+
         }
     }
 }

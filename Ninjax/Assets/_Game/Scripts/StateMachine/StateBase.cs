@@ -1,5 +1,4 @@
 using UnityEngine;
-using UnityEngine.UI;
 
 namespace StateMachine
 {
@@ -16,10 +15,12 @@ namespace StateMachine
         {
             _nextState = null;
         }
+
         public virtual void Exit()
         {
             _nextState = null;
         }
+
         public virtual void Tick() { }
     }
 }
