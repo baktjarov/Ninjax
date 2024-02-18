@@ -408,10 +408,7 @@ MonoBehaviour:
   _normalColor: {r: 0, g: 1, b: 0, a: 0.09803922}
   _onHitColor: {r: 1, g: 0, b: 0, a: 0.09803922}
   _materialColorParameter: _BaseColor
-  _meshFilter: {fileID: 7756319704301996153}
-  _meshRenderer: {fileID: 1890555582425928897}
   _meshMaterial: {fileID: 2100000, guid: b94e284db96e1c54aa02db6d3254c177, type: 2}
-  _mesh: {fileID: 0}
 --- !u!1001 &6512361166698323910
 PrefabInstance:
   m_ObjectHideFlags: 0

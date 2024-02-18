@@ -11,22 +11,26 @@ namespace Gameplay
         [SerializeField] private string _materialColorParameter = "_BaseColor";
 
         [Header("Components")]
-        [SerializeField] private MeshFilter _meshFilter;
-        [SerializeField] private MeshRenderer _meshRenderer;
         [SerializeField] private Material _meshMaterial;
 
-        [Header("Debug")]
-        [SerializeField] private Mesh _mesh;
+        private Mesh _mesh;
+
+        private MeshFilter _meshFilter;
+        private MeshRenderer _meshRenderer;
+
+        private MaterialPropertyBlock _materialPropertyBlock;
 
         [ContextMenu(nameof(Awake))]
         private void Awake()
         {
-            if (_meshFilter == null) { _meshFilter = GetComponent<MeshFilter>(); }
-            if (_mesh == null) { _mesh = new Mesh(); }
-            if (_meshRenderer == null) { _meshRenderer = GetComponent<MeshRenderer>(); }
+            _meshFilter = GetComponent<MeshFilter>();
+            _meshRenderer = GetComponent<MeshRenderer>();
 
+            _mesh = new Mesh();
             _meshFilter.sharedMesh = _mesh;
-            _meshRenderer.sharedMaterial = _meshMaterial;
+            _meshRenderer.material = _meshMaterial;
+
+            _materialPropertyBlock = new MaterialPropertyBlock();
         }
 
         [ContextMenu(nameof(Update))]
@@ -54,7 +58,8 @@ namespace Gameplay
             _mesh.vertices = vertices;
             _mesh.triangles = triangles;
 
-            _meshMaterial.SetColor(_materialColorParameter, noticedObjects.Count > 0 ? _onHitColor : _normalColor);
+            _materialPropertyBlock.SetColor(_materialColorParameter, noticedObjects.Count > 0 ? _onHitColor : _normalColor);
+            _meshRenderer.SetPropertyBlock(_materialPropertyBlock);
         }
     }
 }
