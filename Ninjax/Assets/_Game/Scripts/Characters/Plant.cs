@@ -13,7 +13,6 @@ namespace Characters
         public IReadOnlyList<MainPlayer_TagComponent> toAttack => _toAttack;
 
         [SerializeField] protected AnimationEvents _animationEvents;
-        [SerializeField] protected NavMeshAgent _agent;
 
         [SerializeField] private VisionSensor_Simple _vissionSensor;
         [SerializeField] private List<MainPlayer_TagComponent> _toAttack = new List<MainPlayer_TagComponent>();

@@ -44,10 +44,9 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: e93324a8977824545a3a9ffba05fe07f, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  _agent: {fileID: 2411275607004733372}
-  _player: {fileID: 0}
-  _targetDistance: 5
+  _robot: {fileID: 8830305433101021524}
   _sayHelloState: {fileID: 2567311702815666131}
+  _patrolState: {fileID: 577313190810515051}
 --- !u!1 &3885811765967674833
 GameObject:
   m_ObjectHideFlags: 0
@@ -110,8 +109,8 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: b91e2a536083d6344bc4de3b3650fd0d, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  _startState: {fileID: 577313190810515051}
   _currentState: {fileID: 0}
+  _startState: {fileID: 577313190810515051}
   _animationEvents: {fileID: 6942543393862228398}
   _agent: {fileID: 2411275607004733372}
   _vissionSensor: {fileID: 7650483456979741783}
@@ -205,9 +204,8 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 57c4b4cc550967548b9735ea96d18be4, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  _player: {fileID: 0}
+  _robot: {fileID: 8830305433101021524}
   _messageText: {fileID: 0}
-  _targetDistance: 7
   _findPlayerState: {fileID: 8111366171340436909}
 --- !u!1 &4931067397728032657
 GameObject:
@@ -294,8 +292,10 @@ MonoBehaviour:
   - {fileID: 0}
   - {fileID: 0}
   - {fileID: 0}
+  - {fileID: 0}
+  - {fileID: 0}
   _seePlayerDistance: 7
-  _patrolStoppingDistance: 0
+  _patrolStoppingDistance: 2
   _findPlayerState: {fileID: 8111366171340436909}
   _currentPatrolPointIndex: 0
   _isIncreasingPatrolPointIndex: 0
@@ -399,7 +399,7 @@ MonoBehaviour:
   _noticedObjects: []
   _resolution: 50
   _angle: 90
-  _length: 10
+  _length: 6
   _visionLayer:
     serializedVersion: 2
     m_Bits: 72
@@ -604,10 +604,16 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 224b3d5cab5016d4abbe6d317e60213e, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  <animator>k__BackingField: {fileID: 0}
+  <animator>k__BackingField: {fileID: 6512361166705715878}
 --- !u!4 &6512361166698448168 stripped
 Transform:
   m_CorrespondingSourceObject: {fileID: 400110, guid: bff429107601444d59c67940e6ad78c4,
+    type: 3}
+  m_PrefabInstance: {fileID: 6512361166698323910}
+  m_PrefabAsset: {fileID: 0}
+--- !u!95 &6512361166705715878 stripped
+Animator:
+  m_CorrespondingSourceObject: {fileID: 9500000, guid: bff429107601444d59c67940e6ad78c4,
     type: 3}
   m_PrefabInstance: {fileID: 6512361166698323910}
   m_PrefabAsset: {fileID: 0}

@@ -38,6 +38,8 @@ namespace StateMachine
             }
             else
             {
+                _agent.ResetPath();
+                StopAllCoroutines();
                 _nextState = _findPlayerState;
             }
         }

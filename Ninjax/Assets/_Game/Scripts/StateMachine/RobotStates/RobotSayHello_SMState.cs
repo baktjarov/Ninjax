@@ -1,3 +1,6 @@
+using Characters;
+using System.Linq;
+using TagComponents;
 using TMPro;
 using UnityEngine;
 
@@ -6,11 +9,7 @@ namespace StateMachine
     public class RobotSayHello_SMState : StateBase
     {
         [Header("Components")]
-        [SerializeField] private Transform _player;
-        [SerializeField] private TextMeshProUGUI _messageText;
-
-        [Header("Settings")]
-        [SerializeField] private float _targetDistance = 7;
+        [SerializeField] private Robot _robot;
 
         [Header("States")]
         [SerializeField] private RobotFindPlayer_SMState _findPlayerState;
@@ -19,15 +18,16 @@ namespace StateMachine
         {
             base.Tick();
 
-            if (Vector3.Distance(transform.position, _player.position) <= _targetDistance)
+            MainPlayer_TagComponent mainPlayer = null;
+
+            if (_robot.toAttack.Count > 0) { mainPlayer = _robot.toAttack.ElementAt(0); }
+
+            if (mainPlayer != null)
             {
-                _messageText.text = "Hello, " + _player.name + "!";
+               Debug.Log("Shoot");
             }
             else
             {
-                transform.LookAt(_player.position);
-
-                _messageText.text = "Nooo, come here!";
                 _nextState = _findPlayerState;
             }
         }

@@ -4,9 +4,8 @@ namespace StateMachine
 {
     public class StateMachineBase : MonoBehaviour
     {
-        [SerializeField] private StateBase _startState;
-
         [SerializeField] private StateBase _currentState;
+        [SerializeField] private StateBase _startState;
 
         private void Start()
         {
