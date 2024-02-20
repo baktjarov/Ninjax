@@ -56,10 +56,11 @@ GameObject:
   serializedVersion: 6
   m_Component:
   - component: {fileID: 3293625044861948256}
-  - component: {fileID: 6582725259089891156}
-  - component: {fileID: 8830305433101021524}
   - component: {fileID: 2411275607004733372}
   - component: {fileID: 4456772920085356325}
+  - component: {fileID: 6582725259089891156}
+  - component: {fileID: 8830305433101021524}
+  - component: {fileID: 5046584091768721355}
   m_Layer: 7
   m_Name: Robot
   m_TagString: Untagged
@@ -85,36 +86,6 @@ Transform:
   - {fileID: 3178225468557911174}
   m_Father: {fileID: 0}
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
---- !u!114 &6582725259089891156
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 3885811765967674833}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 21a3b9b0cdaad8248b5a8523f99746fd, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
---- !u!114 &8830305433101021524
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 3885811765967674833}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: b91e2a536083d6344bc4de3b3650fd0d, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  _currentState: {fileID: 0}
-  _startState: {fileID: 577313190810515051}
-  _animationEvents: {fileID: 6942543393862228398}
-  _agent: {fileID: 2411275607004733372}
-  _vissionSensor: {fileID: 7650483456979741783}
-  _toAttack: []
 --- !u!195 &2411275607004733372
 NavMeshAgent:
   m_ObjectHideFlags: 0
@@ -157,9 +128,52 @@ CapsuleCollider:
   m_Enabled: 1
   serializedVersion: 2
   m_Radius: 1
-  m_Height: 1
+  m_Height: 2
   m_Direction: 1
   m_Center: {x: 0, y: 0.5, z: 0}
+--- !u!114 &6582725259089891156
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 3885811765967674833}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 21a3b9b0cdaad8248b5a8523f99746fd, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+--- !u!114 &8830305433101021524
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 3885811765967674833}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: b91e2a536083d6344bc4de3b3650fd0d, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  _currentState: {fileID: 0}
+  _startState: {fileID: 577313190810515051}
+  _animationEvents: {fileID: 6942543393862228398}
+  _agent: {fileID: 2411275607004733372}
+  _vissionSensor: {fileID: 7650483456979741783}
+  _toAttack: []
+--- !u!114 &5046584091768721355
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 3885811765967674833}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 128427d0ac753bd41829d724557271f5, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  _health: 100
 --- !u!1 &4614563967345715578
 GameObject:
   m_ObjectHideFlags: 0
@@ -205,7 +219,6 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   _robot: {fileID: 8830305433101021524}
-  _messageText: {fileID: 0}
   _findPlayerState: {fileID: 8111366171340436909}
 --- !u!1 &4931067397728032657
 GameObject:
@@ -294,7 +307,6 @@ MonoBehaviour:
   - {fileID: 0}
   - {fileID: 0}
   - {fileID: 0}
-  _seePlayerDistance: 7
   _patrolStoppingDistance: 2
   _findPlayerState: {fileID: 8111366171340436909}
   _currentPatrolPointIndex: 0

@@ -3,7 +3,6 @@ using System.Linq;
 using TagComponents;
 using Gameplay;
 using Scriptables;
-using TMPro;
 using UnityEngine;
 
 namespace StateMachine
@@ -18,7 +17,9 @@ namespace StateMachine
 
         [Header("Settings")]
         [SerializeField] private string _shootAnimationKey = "Shoot";
-        [SerializeField] private float _bulletSpeed = 250;
+        [SerializeField] private float _bulletSpeed = 25;
+        
+        [SerializeField] private float _damage = 50;
 
         [Header("States")]
         [SerializeField] private PlantFindPlayer_SMState _findPlayerState;
@@ -62,7 +63,6 @@ namespace StateMachine
         {
             if (_shootAnimationKey == key)
             {
-                Debug.Log("Shoot");
                 Shoot();
             }
         }
@@ -70,14 +70,12 @@ namespace StateMachine
         private void Shoot()
         {
             _animationEvents.transform.LookAt(_currentPlayer.transform.position);
-    
-            var bullet = _bulletPooling.Get(_shootPosition.position, _shootPosition.rotation);
-            Rigidbody bulletRigidbody = bullet.GetComponent<Rigidbody>();
-            Vector3 bulletDirection = (_currentPlayer.transform.position - _shootPosition.position).normalized;
-            bullet.transform.forward = bulletDirection;
-            bulletRigidbody.velocity = bulletDirection * _bulletSpeed;
 
+            var bullet = _bulletPooling.Get(_shootPosition.position, _shootPosition.rotation);
+            bullet.GetComponent<Rigidbody>().velocity = bullet.transform.forward * _bulletSpeed;
             bullet.Inititlize(_bulletPooling);
+
+            bullet.SetDamage(_damage);
         }
     }
 }

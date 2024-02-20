@@ -6,15 +6,12 @@ using UnityEngine;
 
 namespace StateMachine
 {
-    public class PlantPatrol_SMState : StateBase
+    public class VidecamPatrol_SMState : StateBase
     {
         [Header("Components")]
-        [SerializeField] private Plant _plant;
+        [SerializeField] private Videcam _videcam;
         [SerializeField] private float _speed;
         [SerializeField] private List<PatrolPoint> _patrolPoints = new List<PatrolPoint>();
-
-        [Header("States")]
-        [SerializeField] private PlantFindPlayer_SMState _plantFindPlayerState;
 
         [Header("Debug")]
         [SerializeField] private int _currentPatrolPointIndex = 0;
@@ -23,8 +20,8 @@ namespace StateMachine
         public override void Tick()
         {
             base.Tick();
-            bool canSeePlayer = _plant.toAttack.Count > 0 &&
-                Vector3.Distance(transform.position, _plant.toAttack[0].transform.position) > 0;
+            bool canSeePlayer = _videcam.toAttack.Count > 0 &&
+                Vector3.Distance(transform.position, _videcam.toAttack[0].transform.position) > 0;
 
             if (!canSeePlayer)
             {
@@ -33,7 +30,6 @@ namespace StateMachine
             else
             {
                 StopAllCoroutines();
-                _nextState = _plantFindPlayerState;
             }
         }
 
@@ -43,9 +39,9 @@ namespace StateMachine
 
             Vector3 directionToPatrolPoint = targetPatrolPosition - transform.position;
             Quaternion targetRotation = Quaternion.LookRotation(directionToPatrolPoint);
-            _plant.transform.rotation = Quaternion.RotateTowards(_plant.transform.rotation, targetRotation, _speed * Time.deltaTime);
+            _videcam.transform.rotation = Quaternion.RotateTowards(_videcam.transform.rotation, targetRotation, _speed * Time.deltaTime);
 
-            if (Quaternion.Angle(_plant.transform.rotation, targetRotation) < 0.1f)
+            if (Quaternion.Angle(_videcam.transform.rotation, targetRotation) < 0.1f)
             {
                 StartCoroutine(IncreasePatrolPointIndex());
             }

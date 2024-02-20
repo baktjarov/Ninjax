@@ -15,7 +15,6 @@ namespace StateMachine
         [SerializeField] private List<PatrolPoint> _patrolPoints = new List<PatrolPoint>();
 
         [Header("Settings")]
-        [SerializeField] private float _seePlayerDistance = 7;
         [SerializeField] private float _patrolStoppingDistance = 2;
 
         [Header("States")]
@@ -30,7 +29,7 @@ namespace StateMachine
             base.Tick();
 
             bool canSeePlayer = _robot.toAttack.Count > 0 &&
-                Vector3.Distance(transform.position, _robot.toAttack[0].transform.position) > _seePlayerDistance;
+                Vector3.Distance(transform.position, _robot.toAttack[0].transform.position) > 0;
 
             if (canSeePlayer == false)
             {

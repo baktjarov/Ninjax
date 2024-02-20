@@ -1,3 +1,4 @@
+using Interfaces;
 using Scriptables;
 using System.Collections;
 using UnityEngine;
@@ -8,6 +9,8 @@ namespace Gameplay
     {
         [SerializeField] private BulletPooling _pooling;
         [SerializeField] private float _lifetime = 5;
+
+        private float _damage;
 
         public void Inititlize(BulletPooling pooling)
         {
@@ -28,6 +31,21 @@ namespace Gameplay
         {
             yield return new WaitForSecondsRealtime(delay);
             _pooling.Put(this);
+        }
+
+        public void SetDamage(float newDamage)
+        {
+            _damage = newDamage;
+        }
+
+        private void OnTriggerEnter(Collider other)
+        {
+            var damagable = other.GetComponent<IDamagable>();
+
+            if (damagable != null)
+            {
+                damagable.TakeDamage(_damage);
+            }
         }
     }
 }

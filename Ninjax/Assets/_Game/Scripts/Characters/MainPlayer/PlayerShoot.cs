@@ -17,7 +17,8 @@ namespace Characters.MainPlayer
 
         [Header("Settings")]
         [SerializeField] private string _shootAnimationKey = "OnShoot";
-        [SerializeField] private float _bulletSpeed = 250;
+        [SerializeField] private float _bulletSpeed = 25;
+        [SerializeField] private float _damage = 25;
 
         [Header("Debug")]
         [SerializeField] private Robot_TagComponent _currentRobot;
@@ -47,6 +48,8 @@ namespace Characters.MainPlayer
             var bullet = _bulletPooling.Get(_shootPosition.position, _shootPosition.rotation);
             bullet.GetComponent<Rigidbody>().velocity = bullet.transform.forward * _bulletSpeed;
             bullet.Inititlize(_bulletPooling);
+
+            bullet.SetDamage(_damage);
         }
 
         private void OnAnimationEvent(string key)
