@@ -1,15 +1,19 @@
 using GameStates.Interfaces;
-using UnityEngine;
+using Zenject;
 
 namespace GameStates
 {
-    public class GameInit : MonoBehaviour
+    public class GameInit : MonoInstaller
     {
-        private IGameStatesManager _gameStatesManager;
+        [Inject] private IGameStatesManager _gameStatesManager;
 
-        public void Start()
+        public override void InstallBindings()
         {
-            _gameStatesManager = new GameStatesManager();
+
+        }
+
+        public override void Start()
+        {
             InitializeGame();
         }
 

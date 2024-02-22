@@ -1,18 +1,26 @@
 using GameStates.Interfaces;
 using Services;
+using UnityEngine;
+using Zenject;
 
 namespace GameStates
 {
     public class MainMenu_GameState_Controller : IGameState
     {
-        private SceneLoader _sceneLoader;
-        private IGameStatesManager _gameStatesManager;
+        [Inject] private SceneLoader _sceneLoader;
+        [Inject] private IGameStatesManager _gameStatesManager;
+
+        private MainMenu_GameState_ViewsManager _viewsManager;
 
         public void Enter()
         {
             _sceneLoader?.LoadScene("MainMenu", () =>
             {
+                _viewsManager = new MainMenu_GameState_ViewsManager();
+                _viewsManager.Initialize();
 
+                _viewsManager.onPlayClicked += EnterGameplayState;
+                _viewsManager.onQuitClicked += QuitGame;
             });
         }
 
@@ -20,9 +28,20 @@ namespace GameStates
         {
 
         }
+
         public void Update()
         {
 
+        }
+
+        private void EnterGameplayState()
+        {
+            _gameStatesManager.ChangeState(new Gameplay_GameState_Controller());
+        }
+
+        private void QuitGame()
+        {
+            Application.Quit();
         }
     }
 }

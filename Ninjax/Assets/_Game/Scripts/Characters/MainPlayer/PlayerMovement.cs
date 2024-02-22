@@ -31,6 +31,13 @@ namespace Characters.MainPlayer
             _inputHolder.Player.Move.canceled += MoveCancelled;
         }
 
+        private void OnDisable()
+        {
+            _inputHolder.Player.Move.started -= MoveStarted;
+            _inputHolder.Player.Move.performed -= MovePerformed;
+            _inputHolder.Player.Move.canceled -= MoveCancelled;
+        }
+
         private void Update()
         {
             Vector3 moveDirection = new Vector3(
@@ -62,11 +69,6 @@ namespace Characters.MainPlayer
             _animator.SetFloat("Forward", 0);
 
             isMoving.ChangeValue(false);
-        }
-
-        private void OnDisable()
-        {
-
         }
     }
 }

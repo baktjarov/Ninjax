@@ -6,6 +6,7 @@ namespace Characters
 {
     public class Player : MonoBehaviour, IDamagable
     {
+        private bool _isDead = false;
         public Action onDie { get; set; }
         [SerializeField] private float _health;
 
@@ -16,16 +17,17 @@ namespace Characters
 
         private void Update()
         {
-            if (_health <= 0)
+            if (!_isDead && _health <= 0)
             {
+                _isDead = true;
                 onDie?.Invoke();
-                Destroy(gameObject);
             }
         }
 
         public void TakeDamage(float damage)
         {
-            _health = _health - damage;
+            _health -= damage;
         }
     }
+
 }

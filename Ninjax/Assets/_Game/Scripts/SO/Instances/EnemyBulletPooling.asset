@@ -12,6 +12,6 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 24756603a10fc9a469a087b688f296c1, type: 3}
   m_Name: EnemyBulletPooling
   m_EditorClassIdentifier: 
-  _targetObject: {fileID: -1182267611390616427, guid: 3caaa5e306830e84ea492868d9430164,
+  _targetObject: {fileID: 2898222904220487980, guid: 7a8d9e1df3e827b448eae67887f13818,
     type: 3}
   _spawnIfPoolIsEmpty: 3
