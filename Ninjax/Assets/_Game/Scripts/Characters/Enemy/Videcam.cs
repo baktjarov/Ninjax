@@ -1,13 +1,29 @@
-using System.Collections.Generic;
+using Interfaces;
 using StateMachine;
+using System;
 using TagComponents;
-using UnityEngine;
 
 namespace Characters
 {
-    public class Videcam : StateMachineBase
+    public class Videcam : EnemyStateMachineBase, ISignalizer<MainPlayer_TagComponent>
     {
-        public IReadOnlyList<MainPlayer_TagComponent> toAttack => _toAttack;
-        [SerializeField] private List<MainPlayer_TagComponent> _toAttack = new List<MainPlayer_TagComponent>();
+        public Action<MainPlayer_TagComponent> onSignalize { get; set; }
+
+        protected override void OnNotice(MainPlayer_TagComponent mainPlayer)
+        {
+            base.OnNotice(mainPlayer);
+
+            Signalize(mainPlayer);
+        }
+
+        public override void OnSignalization(MainPlayer_TagComponent noticedObject)
+        {
+
+        }
+
+        public  void Signalize(MainPlayer_TagComponent noticedObject)
+        {
+            onSignalize?.Invoke(noticedObject);
+        }
     }
 }

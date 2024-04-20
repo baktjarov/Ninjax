@@ -9,11 +9,16 @@ namespace Scriptables
 
         [Header("Settings")]
         [SerializeField] protected int _spawnIfPoolIsEmpty;
+        [SerializeField] protected string _parentName = typeof(T).Name;
 
         protected Queue<T> _targetsPool = new Queue<T>();
 
+        protected Transform _parent;
+
         protected void Spawn(int spawnAmount)
         {
+            if (_parent == null) { _parent = new GameObject(_parentName).transform; }
+
             for (int i = 0; i < spawnAmount; i++)
             {
                 T newObject = Instantiate(_targetObject, Vector3.zero, Quaternion.identity);
@@ -35,6 +40,8 @@ namespace Scriptables
             result.transform.rotation = rotation;
             result.gameObject.SetActive(true);
 
+            result.transform.SetParent(null, false);
+
             return result;
         }
 
@@ -42,6 +49,8 @@ namespace Scriptables
         {
             toPut.transform.position = Vector3.zero;
             toPut.gameObject.SetActive(false);
+
+            toPut.transform.SetParent(_parent, false);
 
             _targetsPool.Enqueue(toPut);
         }

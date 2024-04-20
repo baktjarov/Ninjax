@@ -1,8 +1,11 @@
-using System.Collections;
-using System.Collections.Generic;
 using Characters;
 using Gameplay;
+using Interfaces;
+using System.Collections;
+using System.Collections.Generic;
+using TagComponents;
 using UnityEngine;
+using Zenject;
 
 namespace StateMachine
 {
@@ -20,13 +23,18 @@ namespace StateMachine
         [SerializeField] private int _currentPatrolPointIndex = 0;
         [SerializeField] private bool _isIncreasingPatrolPointIndex = false;
 
+        [Inject] ISignalization<MainPlayer_TagComponent> _signalization;
+
         public override void Tick()
         {
             base.Tick();
-            bool canSeePlayer = _plant.toAttack.Count > 0 &&
-                Vector3.Distance(transform.position, _plant.toAttack[0].transform.position) > 0;
+            MainPlayer_TagComponent mainPlayer = null;
 
-            if (!canSeePlayer)
+            if (_plant.toAttack.Count > 0) { mainPlayer = _plant.toAttack[0]; }
+            else if (_signalization.noticedObjects.Count > 0) { mainPlayer = _signalization.noticedObjects[0]; }
+            bool canSeePlayer = mainPlayer != null;
+
+            if (canSeePlayer == true)
             {
                 RotateToPatrolPoint(_currentPatrolPointIndex);
             }

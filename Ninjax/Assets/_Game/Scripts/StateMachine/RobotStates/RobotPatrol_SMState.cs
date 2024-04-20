@@ -1,9 +1,11 @@
 using Characters;
 using Gameplay;
+using Interfaces;
 using System.Collections;
 using System.Collections.Generic;
+using TagComponents;
 using UnityEngine;
-using UnityEngine.AI;
+using Zenject;
 
 namespace StateMachine
 {
@@ -11,7 +13,6 @@ namespace StateMachine
     {
         [Header("Components")]
         [SerializeField] private Robot _robot;
-        [SerializeField] private NavMeshAgent _agent;
         [SerializeField] private List<PatrolPoint> _patrolPoints = new List<PatrolPoint>();
 
         [Header("Settings")]
@@ -24,22 +25,28 @@ namespace StateMachine
         [SerializeField] private int _currentPatrolPointIndex = 0;
         [SerializeField] private bool _isIncreasingPatrolPointIndex = false;
 
+        [Inject] ISignalization<MainPlayer_TagComponent> _signalization;
+
         public override void Tick()
         {
             base.Tick();
 
-            bool canSeePlayer = _robot.toAttack.Count > 0 &&
-                Vector3.Distance(transform.position, _robot.toAttack[0].transform.position) > 0;
+            MainPlayer_TagComponent mainPlayer = null;
 
-            if (canSeePlayer == false)
+            if (_robot.toAttack.Count > 0) { mainPlayer = _robot.toAttack[0]; }
+            else if (_signalization.noticedObjects.Count > 0) { mainPlayer = _signalization.noticedObjects[0]; }
+
+            bool canSeePlayer = mainPlayer != null;
+
+            if (canSeePlayer == true)
             {
-                GoToPatrolPoint(_currentPatrolPointIndex);
+                _robot.agent.ResetPath();
+                StopAllCoroutines();
+                _nextState = _findPlayerState;
             }
             else
             {
-                _agent.ResetPath();
-                StopAllCoroutines();
-                _nextState = _findPlayerState;
+                GoToPatrolPoint(_currentPatrolPointIndex);
             }
         }
 
@@ -47,10 +54,10 @@ namespace StateMachine
         {
             Vector3 targetPatrolPosition = _patrolPoints[patrolPointIndex].transform.position;
 
-            _agent.SetDestination(targetPatrolPosition);
-            _agent.stoppingDistance = _patrolStoppingDistance;
+            _robot.agent.SetDestination(targetPatrolPosition);
+            _robot.agent.stoppingDistance = _patrolStoppingDistance;
 
-            if (_agent.remainingDistance <= _patrolStoppingDistance)
+            if (_robot.agent.remainingDistance <= _patrolStoppingDistance)
             {
                 StartCoroutine(IncreasePatrolPointIndex());
             }
@@ -63,7 +70,7 @@ namespace StateMachine
 
             yield return new WaitForSecondsRealtime(_patrolPoints[_currentPatrolPointIndex].patrolTime);
 
-            if (_agent.remainingDistance <= _patrolStoppingDistance)
+            if (_robot.agent.remainingDistance <= _patrolStoppingDistance)
             {
                 _currentPatrolPointIndex++;
                 if (_currentPatrolPointIndex >= _patrolPoints.Count)

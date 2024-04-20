@@ -23,13 +23,13 @@ namespace StateMachine
             bool canSeePlayer = _videcam.toAttack.Count > 0 &&
                 Vector3.Distance(transform.position, _videcam.toAttack[0].transform.position) > 0;
 
-            if (!canSeePlayer)
+            if (canSeePlayer == true)
             {
-                RotateToPatrolPoint(_currentPatrolPointIndex);
+                StopAllCoroutines();
             }
             else
             {
-                StopAllCoroutines();
+                RotateToPatrolPoint(_currentPatrolPointIndex);
             }
         }
 

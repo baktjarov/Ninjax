@@ -4,7 +4,7 @@ using UnityEngine;
 
 namespace Characters.Enemy
 {
-    public class EnemyController : MonoBehaviour, IDamagable
+    public class EnemyHealth : MonoBehaviour, IDamagable
     {
         public Action onDie { get; set; }
         [SerializeField] private float _health;

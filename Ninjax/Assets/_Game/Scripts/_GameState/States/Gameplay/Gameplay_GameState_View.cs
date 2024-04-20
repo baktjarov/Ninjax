@@ -1,49 +1,37 @@
-using System;
-using Characters;
-using Gameplay;
 using Services;
-using SO;
+using System;
 using UI.Views;
-using Zenject;
 using Object = UnityEngine.Object;
 
 namespace GameStates
 {
-    public class Gameplay_GameState_ViewsManager
+    public class Gameplay_GameState_View
     {
         public Action onMainMenuClicked;
         public Action onNextClicked;
 
-        [Inject] private ListOfAllViews _listOfAllViews;
+        private Gameplay_GameState_Model _model;
 
         private Gameplay_View _gameplayView;
         private Pause_View _pauseView;
         private Win_View _winView;
         private Louse_View _louseView;
 
-        private Player _player;
-        private Finish _finish;
+        public Gameplay_GameState_View(Gameplay_GameState_Model model)
+        {
+            _model = model;
+        }
 
         public void Initialize()
         {
             InjectService.Inject(this);
 
-            Gameplay_View gameplay_View_Prefab = _listOfAllViews.GetView<Gameplay_View>();
-            _gameplayView = Object.Instantiate(gameplay_View_Prefab);
+            _gameplayView = Object.Instantiate(_model.listOfAllViews.GetView<Gameplay_View>());
+            _pauseView = Object.Instantiate(_model.listOfAllViews.GetView<Pause_View>());
+            _winView = Object.Instantiate(_model.listOfAllViews.GetView<Win_View>());
+            _louseView = Object.Instantiate(_model.listOfAllViews.GetView<Louse_View>());
 
-            Pause_View pause_View_Prefab = _listOfAllViews.GetView<Pause_View>();
-            _pauseView = Object.Instantiate(pause_View_Prefab);
-
-            Win_View win_View_Prefab = _listOfAllViews.GetView<Win_View>();
-            _winView = Object.Instantiate(win_View_Prefab);
-
-            Louse_View louse_View_Prefab = _listOfAllViews.GetView<Louse_View>();
-            _louseView = Object.Instantiate(louse_View_Prefab);
-
-            _player = Object.FindObjectOfType<Player>();
-            _finish = Object.FindObjectOfType<Finish>();
-
-            _gameplayView.Construct(_pauseView, _winView, _louseView, _player, _finish);
+            _gameplayView.Construct(_pauseView, _winView, _louseView, _model.player, _model.finish);
             _pauseView.SetOpenOnCloseView(_gameplayView);
 
             _gameplayView.Open();

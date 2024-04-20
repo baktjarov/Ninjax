@@ -1,3 +1,4 @@
+using Interfaces;
 using System;
 using System.Collections.Generic;
 using TagComponents;
@@ -5,7 +6,7 @@ using UnityEngine;
 
 namespace Sensors
 {
-    public class VisionSensor_Simple : MonoBehaviour
+    public class VisionSensor_Simple : VisionBase
     {
         public class VisionConeRaycast
         {
@@ -23,14 +24,6 @@ namespace Sensors
 
             public Color color = Color.green;
         }
-
-        public Action<TagComponentBase> onEnter;
-        public Action<TagComponentBase> onExit;
-
-        public IReadOnlyCollection<TagComponentBase> noticedObjects => _noticedObjects;
-
-        [SerializeField] protected List<TagComponentBase> _enteredObjects = new List<TagComponentBase>();
-        [SerializeField] protected List<TagComponentBase> _noticedObjects = new List<TagComponentBase>();
 
         [SerializeField][Range(5, 360)] protected int _resolution = 50;
         [SerializeField][Range(5, 360f)] protected float _angle = 90f;

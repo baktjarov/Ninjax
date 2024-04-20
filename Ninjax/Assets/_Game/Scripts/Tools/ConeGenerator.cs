@@ -9,6 +9,10 @@ namespace Tools
         [SerializeField][Range(0, 5)] private float _width = 90;
         [SerializeField][Min(0)] private float _length = 2;
 
+        [Header("Settings")]
+        [SerializeField] private bool _regenerateOnAwake = false;
+        [SerializeField] private bool _debugMode = false;
+
         private Mesh _mesh;
         private MeshFilter _meshFilter;
         private MeshCollider _meshCollider;
@@ -19,22 +23,33 @@ namespace Tools
 
         private void Awake()
         {
-            Setup();
+            _mesh ??= new Mesh();
+            _meshFilter ??= GetComponent<MeshFilter>();
+            _meshCollider ??= GetComponent<MeshCollider>();
+
+            if (_regenerateOnAwake == true)
+            {
+                Setup();
+                UpdateMeshData();
+                Generate();
+                ApplyMesh();
+            }
         }
 
+#if UNITY_EDITOR
         private void Update()
         {
-            UpdateMeshData();
-            Generate();
-            ApplyMesh();
+            if (_debugMode == true)
+            {
+                UpdateMeshData();
+                Generate();
+                ApplyMesh();
+            }
         }
+#endif
 
         private void Setup()
         {
-            _mesh = new Mesh();
-            _meshFilter = GetComponent<MeshFilter>();
-            _meshCollider = GetComponent<MeshCollider>();
-
             _meshFilter.sharedMesh = _mesh;
             _meshCollider.sharedMesh = _mesh;
         }

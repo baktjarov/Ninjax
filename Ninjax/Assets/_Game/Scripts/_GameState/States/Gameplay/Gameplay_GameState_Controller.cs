@@ -9,17 +9,20 @@ namespace GameStates
         [Inject] private SceneLoader _sceneLoader;
         [Inject] private IGameStatesManager _gameStatesManager;
 
-        private Gameplay_GameState_ViewsManager _viewsManager;
+        private Gameplay_GameState_View _view;
+        private Gameplay_GameState_Model _model;
 
         public void Enter()
         {
             _sceneLoader?.LoadScene("Gameplay", () =>
             {
-                _viewsManager = new Gameplay_GameState_ViewsManager();
-                _viewsManager.Initialize();
+                _model = new Gameplay_GameState_Model();
 
-                _viewsManager.onMainMenuClicked += EnterMainMenuState;
-                _viewsManager.onNextClicked += ReloadGameplayState;
+                _view = new Gameplay_GameState_View(_model);
+                _view.Initialize();
+
+                _view.onMainMenuClicked += EnterMainMenuState;
+                _view.onNextClicked += ReloadGameplayState;
             });
         }
 

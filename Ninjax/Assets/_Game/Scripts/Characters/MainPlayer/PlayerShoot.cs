@@ -13,7 +13,7 @@ namespace Characters.MainPlayer
         [SerializeField] private BulletPooling _bulletPooling;
         [SerializeField] private Transform _shootPosition;
         [SerializeField] private PlayerMovement _playerMovement;
-        [SerializeField] private VisionSensor_Simple _visionSensor;
+        [SerializeField] private VisionBase _visionSensor;
 
         [Header("Settings")]
         [SerializeField] private string _shootAnimationKey = "OnShoot";

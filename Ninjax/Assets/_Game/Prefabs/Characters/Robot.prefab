@@ -45,7 +45,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   _robot: {fileID: 8830305433101021524}
-  _sayHelloState: {fileID: 2567311702815666131}
+  _shootState: {fileID: 2567311702815666131}
   _patrolState: {fileID: 577313190810515051}
 --- !u!1 &3885811765967674833
 GameObject:
@@ -100,7 +100,7 @@ NavMeshAgent:
   m_Acceleration: 8
   avoidancePriority: 50
   m_AngularSpeed: 360
-  m_StoppingDistance: 0
+  m_StoppingDistance: 5
   m_AutoTraverseOffMeshLink: 1
   m_AutoBraking: 1
   m_AutoRepath: 1
@@ -157,10 +157,10 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   _currentState: {fileID: 0}
   _startState: {fileID: 577313190810515051}
-  _animationEvents: {fileID: 6942543393862228398}
-  _agent: {fileID: 2411275607004733372}
   _vissionSensor: {fileID: 7650483456979741783}
   _toAttack: []
+  <agent>k__BackingField: {fileID: 2411275607004733372}
+  _animationEvents: {fileID: 6942543393862228398}
 --- !u!114 &5046584091768721355
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -299,7 +299,6 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   _robot: {fileID: 8830305433101021524}
-  _agent: {fileID: 2411275607004733372}
   _patrolPoints:
   - {fileID: 0}
   - {fileID: 0}
@@ -370,6 +369,8 @@ MeshRenderer:
   m_ReflectionProbeUsage: 1
   m_RayTracingMode: 2
   m_RayTraceProcedural: 0
+  m_RayTracingAccelStructBuildFlagsOverride: 0
+  m_RayTracingAccelStructBuildFlags: 1
   m_RenderingLayerMask: 1
   m_RendererPriority: 0
   m_Materials:
