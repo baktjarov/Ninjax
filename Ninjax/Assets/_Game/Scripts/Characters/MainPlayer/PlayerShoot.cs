@@ -1,7 +1,10 @@
+using DG.Tweening;
 using Gameplay;
 using Scriptables;
 using Sensors;
+using System.Collections.Generic;
 using TagComponents;
+using UnityEditor.Overlays;
 using UnityEngine;
 
 namespace Characters.MainPlayer
@@ -21,7 +24,9 @@ namespace Characters.MainPlayer
         [SerializeField] private float _damage = 25;
 
         [Header("Debug")]
-        [SerializeField] private Robot_TagComponent _currentRobot;
+        [SerializeField] private List<TagComponentBase> _currentVisibleEnemies = new();
+
+        private bool _canShoot => _playerMovement.isMoving.value == false && _currentVisibleEnemies.Count > 0;
 
         private void OnEnable()
         {
@@ -29,8 +34,6 @@ namespace Characters.MainPlayer
             _playerMovement.isMoving.onValueChanged += OnMovementChanged;
             _visionSensor.onEnter += OnSensorEnter;
             _visionSensor.onExit += OnSensorExit;
-
-            OnMovementChanged(_playerMovement.isMoving.value);
         }
 
         private void OnDisable()
@@ -41,10 +44,13 @@ namespace Characters.MainPlayer
             _visionSensor.onExit -= OnSensorExit;
         }
 
+        private void Update()
+        {
+            if (_canShoot) { LookAtPlayer(); }
+        }
+
         private void Shoot()
         {
-            _animationEvents.transform.LookAt(_currentRobot.transform.position);
-
             var bullet = _bulletPooling.Get(_shootPosition.position, _shootPosition.rotation);
             bullet.GetComponent<Rigidbody>().velocity = bullet.transform.forward * _bulletSpeed;
             bullet.Inititlize(_bulletPooling);
@@ -62,11 +68,9 @@ namespace Characters.MainPlayer
 
         private void OnMovementChanged(bool isMoving)
         {
-            bool canShoot = isMoving == false && _currentRobot != null;
+            _animationEvents.animator.SetBool("IsAttacking", _canShoot);
 
-            _animationEvents.animator.SetBool("IsAttacking", canShoot);
-
-            if (canShoot == false)
+            if (_canShoot == false)
             {
                 _animationEvents.animator.Play("MovemenBlendTree");
             }
@@ -78,14 +82,29 @@ namespace Characters.MainPlayer
 
         private void OnSensorEnter(TagComponentBase tag)
         {
-            if (tag is Robot_TagComponent) { _currentRobot = tag as Robot_TagComponent; }
+            if (tag is IShootableEnemy_Tag && _currentVisibleEnemies.Contains(tag) == false) { _currentVisibleEnemies.Add(tag); }
+
             OnMovementChanged(_playerMovement.isMoving.value);
         }
 
         private void OnSensorExit(TagComponentBase tag)
         {
-            if (tag is Robot_TagComponent) { _currentRobot = null; }
+            if (tag is IShootableEnemy_Tag) { _currentVisibleEnemies.Remove(tag); }
+
             OnMovementChanged(_playerMovement.isMoving.value);
+        }
+
+        private void LookAtPlayer(float duration = 0.25f)
+        {
+            if(_currentVisibleEnemies.Count <= 0) { return; }   
+
+            TagComponentBase mainPlayer = _currentVisibleEnemies[0];
+            if(mainPlayer == null) { return; }
+
+            Vector3 lookPosition = mainPlayer.transform.position;
+            lookPosition.y = _animationEvents.transform.position.y;
+
+            _animationEvents.transform.DOLookAt(lookPosition, duration);
         }
     }
 }

@@ -1,4 +1,5 @@
 using Characters;
+using DG.Tweening;
 using Interfaces;
 using TagComponents;
 using UnityEngine;
@@ -8,14 +9,22 @@ namespace StateMachine
 {
     public class RobotFindPlayer_SMState : StateBase
     {
-        [Header("Settings")]
+        [Header("Components")]
         [SerializeField] private Robot _robot;
 
-        [Header("States")]
-        [SerializeField] private StateBase _shootState;
-        [SerializeField] private StateBase _patrolState;
+        [Header("Settings")]
+        [SerializeField] private float _stoppingDistance = 5;
 
-        [Inject] ISignalization<MainPlayer_TagComponent> _signalization;
+        [Header("States")]
+        [SerializeField] private RobotShoot_SMState _shootState;
+        [SerializeField] private RobotPatrol_SMState _patrolState;
+
+        [Inject] ISignalization<MainPlayer_Tag> _signalization;
+
+        public override void Enter()
+        {
+            base.Enter();
+        }
 
         public override void Tick()
         {
@@ -31,16 +40,27 @@ namespace StateMachine
 
                 if (mainPlayer != null)
                 {
+                    _robot.agent.stoppingDistance = _stoppingDistance;
+
                     _robot.agent.SetDestination(mainPlayer.transform.position);
-                }
-                else
-                {
-                    _robot.agent.ResetPath();
+                    if (_robot.agent.velocity == Vector3.zero)
+                    {
+                        _robot.transform.DOLookAt(mainPlayer.transform.position, 2);
+                    }
                 }
             }
             else
             {
-                _nextState = _patrolState;
+                _robot.agent.stoppingDistance = 0.75f;
+
+                if(Vector3.Distance(_robot.transform.position, _patrolState.lastSeenPlayerAt) > 1)
+                {
+                    _robot.agent.SetDestination(_patrolState.lastSeenPlayerAt);
+                }
+                else
+                {
+                    _nextState = _patrolState;
+                }
             }
         }
     }

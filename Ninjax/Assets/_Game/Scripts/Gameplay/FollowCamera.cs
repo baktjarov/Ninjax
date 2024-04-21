@@ -9,8 +9,15 @@ namespace Gameplay
         [SerializeField] private float _followSpeed = 10;
         [SerializeField] private Vector3 _followOffset;
 
+        public void SetFollowObject(Transform objectToFollow)
+        {
+            _objectToFollow = objectToFollow;
+        }
+
         private void Update()
         {
+            if (_objectToFollow == null) { return; }
+
             Vector3 positionToFollow = _objectToFollow.position;
             Vector3 targetPosition = positionToFollow - _followOffset;
 

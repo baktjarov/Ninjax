@@ -14,7 +14,8 @@ GameObject:
   - component: {fileID: 234449697480649968}
   - component: {fileID: 3175847993183041260}
   - component: {fileID: 2311039964704516220}
-  m_Layer: 7
+  - component: {fileID: 1023253320794174720}
+  m_Layer: 10
   m_Name: Point Light
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -141,6 +142,28 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   _enteredObjects: []
   _noticedObjects: []
+--- !u!95 &1023253320794174720
+Animator:
+  serializedVersion: 7
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 4096785114928154153}
+  m_Enabled: 1
+  m_Avatar: {fileID: 0}
+  m_Controller: {fileID: 0}
+  m_CullingMode: 0
+  m_UpdateMode: 0
+  m_ApplyRootMotion: 0
+  m_LinearVelocityBlending: 0
+  m_StabilizeFeet: 0
+  m_AnimatePhysics: 0
+  m_WarningMessage: 
+  m_HasTransformHierarchy: 1
+  m_AllowConstantClipSamplingOptimization: 1
+  m_KeepAnimatorStateOnDisable: 0
+  m_WriteDefaultValuesOnDisable: 0
 --- !u!1 &4711962816030126355
 GameObject:
   m_ObjectHideFlags: 0
@@ -272,7 +295,7 @@ MonoBehaviour:
   m_GameObject: {fileID: 4851029999170657202}
   m_Enabled: 1
   m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: b2c5579da88bc554fbc65b1f8d049416, type: 3}
+  m_Script: {fileID: 11500000, guid: a23bba84571ca7843862fc10ce801abf, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
 --- !u!114 &2371108377390549477
@@ -291,6 +314,7 @@ MonoBehaviour:
   _startState: {fileID: 7989147916239708524}
   _vissionSensor: {fileID: 0}
   _toAttack: []
+  _animator: {fileID: 1023253320794174720}
 --- !u!1 &8031283694640613950
 GameObject:
   m_ObjectHideFlags: 0

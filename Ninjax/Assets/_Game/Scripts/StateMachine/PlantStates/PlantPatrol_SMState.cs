@@ -23,12 +23,12 @@ namespace StateMachine
         [SerializeField] private int _currentPatrolPointIndex = 0;
         [SerializeField] private bool _isIncreasingPatrolPointIndex = false;
 
-        [Inject] ISignalization<MainPlayer_TagComponent> _signalization;
+        [Inject] ISignalization<MainPlayer_Tag> _signalization;
 
         public override void Tick()
         {
             base.Tick();
-            MainPlayer_TagComponent mainPlayer = null;
+            MainPlayer_Tag mainPlayer = null;
 
             if (_plant.toAttack.Count > 0) { mainPlayer = _plant.toAttack[0]; }
             else if (_signalization.noticedObjects.Count > 0) { mainPlayer = _signalization.noticedObjects[0]; }
@@ -36,12 +36,12 @@ namespace StateMachine
 
             if (canSeePlayer == true)
             {
-                RotateToPatrolPoint(_currentPatrolPointIndex);
+                StopAllCoroutines();
+                _nextState = _plantFindPlayerState;
             }
             else
             {
-                StopAllCoroutines();
-                _nextState = _plantFindPlayerState;
+                RotateToPatrolPoint(_currentPatrolPointIndex);
             }
         }
 

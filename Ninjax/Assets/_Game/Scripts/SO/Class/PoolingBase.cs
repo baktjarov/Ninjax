@@ -17,7 +17,11 @@ namespace Scriptables
 
         protected void Spawn(int spawnAmount)
         {
-            if (_parent == null) { _parent = new GameObject(_parentName).transform; }
+            if (_parent == null)
+            {
+                _parent = new GameObject(_parentName).transform;
+                DontDestroyOnLoad(_parent);
+            }
 
             for (int i = 0; i < spawnAmount; i++)
             {

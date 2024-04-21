@@ -6,20 +6,20 @@ using UnityEngine;
 
 namespace Gameplay
 {
-    public class VideoCameraSystem : MonoBehaviour, ISignalization<MainPlayer_TagComponent>
+    public class VideoCameraSystem : MonoBehaviour, ISignalization<MainPlayer_Tag>
     {
-        public Action<MainPlayer_TagComponent> onSignalizationTriggerred { get; set; }
+        public Action<MainPlayer_Tag> onSignalizationTriggerred { get; set; }
 
-        public IReadOnlyList<MainPlayer_TagComponent> noticedObjects => _noticedObjects;
+        public IReadOnlyList<MainPlayer_Tag> noticedObjects => _noticedObjects;
 
-        [SerializeField] private List<ISignalizer<MainPlayer_TagComponent>> _signalizations = new();
-        [SerializeField] private List<MainPlayer_TagComponent> _noticedObjects = new();
+        [SerializeField] private List<ISignalizer<MainPlayer_Tag>> _signalizations = new();
+        [SerializeField] private List<MainPlayer_Tag> _noticedObjects = new();
 
         private void OnEnable()
         {
             foreach(var monoBeh in FindObjectsByType<MonoBehaviour>(FindObjectsInactive.Include, FindObjectsSortMode.None))
             {
-                if(monoBeh is ISignalizer<MainPlayer_TagComponent> signalizer)
+                if(monoBeh is ISignalizer<MainPlayer_Tag> signalizer)
                 {
                     _signalizations.Add(signalizer);
                 }
@@ -39,7 +39,7 @@ namespace Gameplay
             }
         }
 
-        private void OnNoticedMainPlayer(MainPlayer_TagComponent mainPlayer)
+        private void OnNoticedMainPlayer(MainPlayer_Tag mainPlayer)
         {
             if (_noticedObjects.Contains(mainPlayer) == false) { _noticedObjects.Add(mainPlayer); }
             onSignalizationTriggerred?.Invoke(mainPlayer);

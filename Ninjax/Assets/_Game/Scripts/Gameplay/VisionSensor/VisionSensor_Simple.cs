@@ -122,13 +122,13 @@ namespace Sensors
                     {
                         visionConeRaycast.color = _onHitColor;
                     }
+
+                    OnTryNotice(tag);
                 }
 
                 _visionConeRaycasts.Add(visionConeRaycast);
 
                 currenTangle += angleIncrement;
-
-                OnTryNotice(tag);
 
                 if (_debugRaycast == true) { Debug.DrawLine(visionConeRaycast.startPosition_World, visionConeRaycast.endPosition_World, visionConeRaycast.color); }
             }

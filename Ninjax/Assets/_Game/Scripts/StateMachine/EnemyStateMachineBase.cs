@@ -7,15 +7,15 @@ using Zenject;
 
 namespace StateMachine
 {
-    public class EnemyStateMachineBase : StateMachineBase, IReactToSignalization<MainPlayer_TagComponent>
+    public class EnemyStateMachineBase : StateMachineBase, IReactToSignalization<MainPlayer_Tag>
     {
-        public IReadOnlyList<MainPlayer_TagComponent> toAttack => _toAttack;
-        public MainPlayer_TagComponent toAttack_FromSignalization { get; private set; }
+        public IReadOnlyList<MainPlayer_Tag> toAttack => _toAttack;
+        public MainPlayer_Tag toAttack_FromSignalization { get; private set; }
 
         [SerializeField] protected VisionBase _vissionSensor;
-        [SerializeField] protected List<MainPlayer_TagComponent> _toAttack = new List<MainPlayer_TagComponent>();
+        [SerializeField] protected List<MainPlayer_Tag> _toAttack = new List<MainPlayer_Tag>();
 
-        [Inject] protected ISignalization<MainPlayer_TagComponent> _signalization;
+        [Inject] protected ISignalization<MainPlayer_Tag> _signalization;
 
         protected virtual void Awake()
         {
@@ -40,7 +40,7 @@ namespace StateMachine
 
         protected virtual void OnATagEnter(TagComponentBase tag)
         {
-            if (tag is MainPlayer_TagComponent mainPlayert)
+            if (tag is MainPlayer_Tag mainPlayert)
             {
                 OnNotice(mainPlayert);
             }
@@ -48,13 +48,13 @@ namespace StateMachine
 
         protected virtual void OnATagExit(TagComponentBase tag)
         {
-            if (tag is MainPlayer_TagComponent mainPlayer)
+            if (tag is MainPlayer_Tag mainPlayer)
             {
                 OnUnotice(mainPlayer);
             }
         }
 
-        protected virtual void OnNotice(MainPlayer_TagComponent mainPlayer)
+        protected virtual void OnNotice(MainPlayer_Tag mainPlayer)
         {
             if (_toAttack.Contains(mainPlayer) == false)
             {
@@ -62,12 +62,12 @@ namespace StateMachine
             }
         }
 
-        protected virtual void OnUnotice(MainPlayer_TagComponent mainPlayer)
+        protected virtual void OnUnotice(MainPlayer_Tag mainPlayer)
         {
             _toAttack.Remove(mainPlayer);
         }
 
-        public virtual void OnSignalization(MainPlayer_TagComponent noticedObject)
+        public virtual void OnSignalization(MainPlayer_Tag noticedObject)
         {
             if (toAttack_FromSignalization == null)
             {

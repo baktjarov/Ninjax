@@ -1,5 +1,5 @@
-﻿using Characters;
-using Gameplay;
+﻿using Gameplay;
+using Services;
 using SO;
 using System;
 using TagComponents;
@@ -9,16 +9,23 @@ namespace GameStates
 {
     public class Gameplay_GameState_Model
     {
-        public Action<MainPlayer_TagComponent> onMainPlayerDetected;
+        public Action<MainPlayer_Tag> onMainPlayerDetected;
 
-        public Player player;
-        public Finish finish;
+        public MainPlayer_Tag mainPlayer;
+
+        [Inject] public Finish finish;
+        [Inject] public FollowCamera followCamera;
 
         [Inject] public ListOfAllViews listOfAllViews;
 
+        public Gameplay_GameState_Model(MainPlayer_Tag _player)
+        {
+            mainPlayer = _player;
+        }
+
         public void Initialize()
         {
-
+            InjectService.Inject(this);
         }
     }
 }

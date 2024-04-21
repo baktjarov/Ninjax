@@ -1,4 +1,5 @@
 using GameStates.Interfaces;
+using Services;
 using Zenject;
 
 namespace GameStates
@@ -9,11 +10,8 @@ namespace GameStates
 
         public override void InstallBindings()
         {
+            InjectService.SetDIContainer(Container);
 
-        }
-
-        public override void Start()
-        {
             InitializeGame();
         }
 

@@ -4,6 +4,7 @@ using TagComponents;
 using Gameplay;
 using Scriptables;
 using UnityEngine;
+using DG.Tweening;
 
 namespace StateMachine
 {
@@ -25,7 +26,7 @@ namespace StateMachine
         [SerializeField] private PlantFindPlayer_SMState _findPlayerState;
 
         [Header("Debug")]
-        [SerializeField] private MainPlayer_TagComponent _currentPlayer;
+        [SerializeField] private MainPlayer_Tag _currentPlayer;
 
         private void OnEnable()
         {
@@ -41,7 +42,7 @@ namespace StateMachine
         {
             base.Tick();
 
-            MainPlayer_TagComponent mainPlayer = null;
+            MainPlayer_Tag mainPlayer = null;
 
             if (_plant.toAttack.Count > 0)
             {
@@ -69,7 +70,8 @@ namespace StateMachine
 
         private void Shoot()
         {
-            _animationEvents.transform.LookAt(_currentPlayer.transform.position);
+            _animationEvents.transform.DOLookAt(_currentPlayer.transform.position, 0.25f);
+            _shootPosition.LookAt(_currentPlayer.transform.position);
 
             var bullet = _bulletPooling.Get(_shootPosition.position, _shootPosition.rotation);
             bullet.GetComponent<Rigidbody>().velocity = bullet.transform.forward * _bulletSpeed;

@@ -61,7 +61,7 @@ Transform:
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_ConstrainProportionsScale: 0
   m_Children: []
-  m_Father: {fileID: 2665228442487390734}
+  m_Father: {fileID: 5969006888071779988}
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!114 &6704643578753995990
 MonoBehaviour:
@@ -77,14 +77,14 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   _enteredObjects: []
   _noticedObjects: []
-  _resolution: 50
+  _resolution: 75
   _angle: 360
-  _length: 10
+  _length: 11
   _visionLayer:
     serializedVersion: 2
     m_Bits: 136
   _colorOnlyOnHitTagComponents: 1
-  _debugRaycast: 0
+  _debugRaycast: 1
   _normalColor: {r: 0, g: 1, b: 0, a: 0.39215687}
   _onHitColor: {r: 1, g: 0, b: 0, a: 0.39215687}
 --- !u!1 &6585578187024320408
@@ -123,6 +123,7 @@ Transform:
   m_ConstrainProportionsScale: 0
   m_Children:
   - {fileID: 2665228442487390734}
+  - {fileID: 6577173651461516076}
   m_Father: {fileID: 0}
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!54 &1216166655479710175
@@ -184,7 +185,7 @@ MonoBehaviour:
   m_GameObject: {fileID: 6585578187024320408}
   m_Enabled: 1
   m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 7501de9a70028234daecdb2069617bee, type: 3}
+  m_Script: {fileID: 11500000, guid: 9df5acc83ee1ea04689c2eef19637851, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
 --- !u!114 &3007285181447885797
@@ -196,7 +197,7 @@ MonoBehaviour:
   m_GameObject: {fileID: 6585578187024320408}
   m_Enabled: 1
   m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 86b10ca77612452499b95eb48eed84fb, type: 3}
+  m_Script: {fileID: 11500000, guid: 35cc7d4b1fe33b64b8d616c4153cae8f, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
   _health: 100
@@ -237,7 +238,7 @@ MonoBehaviour:
   _shootAnimationKey: OnShoot
   _bulletSpeed: 25
   _damage: 25
-  _currentRobot: {fileID: 0}
+  _currentVisibleEnemies: []
 --- !u!1001 &2665228442487527656
 PrefabInstance:
   m_ObjectHideFlags: 0
@@ -248,12 +249,12 @@ PrefabInstance:
     m_Modifications:
     - target: {fileID: -6189996234507192716, guid: 6113d0ea44252774db53fa756483807d,
         type: 3}
-      propertyPath: m_Materials.Array.data[0]
+      propertyPath: 'm_Materials.Array.data[0]'
       value: 
       objectReference: {fileID: 2100000, guid: e1cd1a76ecd557440a55dfaeead52541, type: 2}
     - target: {fileID: -2614677818739849822, guid: 6113d0ea44252774db53fa756483807d,
         type: 3}
-      propertyPath: m_Materials.Array.data[0]
+      propertyPath: 'm_Materials.Array.data[0]'
       value: 
       objectReference: {fileID: 2100000, guid: e1cd1a76ecd557440a55dfaeead52541, type: 2}
     - target: {fileID: 100102, guid: 6113d0ea44252774db53fa756483807d, type: 3}
@@ -310,7 +311,7 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 2982630307632017288, guid: 6113d0ea44252774db53fa756483807d,
         type: 3}
-      propertyPath: m_Materials.Array.data[0]
+      propertyPath: 'm_Materials.Array.data[0]'
       value: 
       objectReference: {fileID: 2100000, guid: e1cd1a76ecd557440a55dfaeead52541, type: 2}
     m_RemovedComponents: []
@@ -320,10 +321,6 @@ PrefabInstance:
         type: 3}
       insertIndex: -1
       addedObject: {fileID: 2067330297839186522}
-    - targetCorrespondingSourceObject: {fileID: 400102, guid: 6113d0ea44252774db53fa756483807d,
-        type: 3}
-      insertIndex: -1
-      addedObject: {fileID: 6577173651461516076}
     m_AddedComponents:
     - targetCorrespondingSourceObject: {fileID: 100102, guid: 6113d0ea44252774db53fa756483807d,
         type: 3}

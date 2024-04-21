@@ -1,8 +1,10 @@
 using Characters;
 using Gameplay;
 using Interfaces;
+using System;
 using System.Collections;
 using System.Collections.Generic;
+using System.Linq;
 using TagComponents;
 using UnityEngine;
 using Zenject;
@@ -11,9 +13,11 @@ namespace StateMachine
 {
     public class RobotPatrol_SMState : StateBase
     {
+        [field: SerializeField] public Vector3 lastSeenPlayerAt { get; private set; }
+
         [Header("Components")]
         [SerializeField] private Robot _robot;
-        [SerializeField] private List<PatrolPoint> _patrolPoints = new List<PatrolPoint>();
+        [SerializeField] private Transform _patrolPointsParent;
 
         [Header("Settings")]
         [SerializeField] private float _patrolStoppingDistance = 2;
@@ -24,14 +28,29 @@ namespace StateMachine
         [Header("Debug")]
         [SerializeField] private int _currentPatrolPointIndex = 0;
         [SerializeField] private bool _isIncreasingPatrolPointIndex = false;
+        [SerializeField] private List<PatrolPoint> _patrolPoints = new List<PatrolPoint>();
 
-        [Inject] ISignalization<MainPlayer_TagComponent> _signalization;
+        [Inject] ISignalization<MainPlayer_Tag> _signalization;
+
+        public override void Enter()
+        {
+            base.Enter();
+
+            _patrolPoints = _patrolPointsParent.GetComponentsInChildren<PatrolPoint>(true).ToList();
+        }
+
+        public override void Exit()
+        {
+            base.Exit();
+
+            _isIncreasingPatrolPointIndex = false;
+        }
 
         public override void Tick()
         {
             base.Tick();
 
-            MainPlayer_TagComponent mainPlayer = null;
+            MainPlayer_Tag mainPlayer = null;
 
             if (_robot.toAttack.Count > 0) { mainPlayer = _robot.toAttack[0]; }
             else if (_signalization.noticedObjects.Count > 0) { mainPlayer = _signalization.noticedObjects[0]; }
@@ -40,7 +59,8 @@ namespace StateMachine
 
             if (canSeePlayer == true)
             {
-                _robot.agent.ResetPath();
+                lastSeenPlayerAt = mainPlayer.transform.position;
+
                 StopAllCoroutines();
                 _nextState = _findPlayerState;
             }

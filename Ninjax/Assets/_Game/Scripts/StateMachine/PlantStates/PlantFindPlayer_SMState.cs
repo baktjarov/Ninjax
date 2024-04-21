@@ -15,7 +15,7 @@ namespace StateMachine
         [SerializeField] private StateBase _shootState;
         [SerializeField] private StateBase _patrolState;
 
-        [Inject] ISignalization<MainPlayer_TagComponent> _signalization;
+        [Inject] ISignalization<MainPlayer_Tag> _signalization;
 
         public override void Tick()
         {

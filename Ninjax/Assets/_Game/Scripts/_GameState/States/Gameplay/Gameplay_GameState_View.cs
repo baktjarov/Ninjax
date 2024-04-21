@@ -31,7 +31,7 @@ namespace GameStates
             _winView = Object.Instantiate(_model.listOfAllViews.GetView<Win_View>());
             _louseView = Object.Instantiate(_model.listOfAllViews.GetView<Louse_View>());
 
-            _gameplayView.Construct(_pauseView, _winView, _louseView, _model.player, _model.finish);
+            _gameplayView.Construct(_pauseView, _winView, _louseView, _model.mainPlayer, _model.finish);
             _pauseView.SetOpenOnCloseView(_gameplayView);
 
             _gameplayView.Open();

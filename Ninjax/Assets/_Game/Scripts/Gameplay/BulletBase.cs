@@ -40,11 +40,12 @@ namespace Gameplay
 
         private void OnTriggerEnter(Collider other)
         {
-            var damagable = other.GetComponent<IDamagable>();
+            var damagable = other.GetComponent<IHealth>();
 
             if (damagable != null)
             {
                 damagable.TakeDamage(_damage);
+                _pooling.Put(this);
             }
         }
     }
