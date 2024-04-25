@@ -4,7 +4,6 @@ using Scriptables;
 using Sensors;
 using System.Collections.Generic;
 using TagComponents;
-using UnityEditor.Overlays;
 using UnityEngine;
 
 namespace Characters.MainPlayer
@@ -96,10 +95,10 @@ namespace Characters.MainPlayer
 
         private void LookAtPlayer(float duration = 0.25f)
         {
-            if(_currentVisibleEnemies.Count <= 0) { return; }   
+            if (_currentVisibleEnemies.Count <= 0) { return; }
 
             TagComponentBase mainPlayer = _currentVisibleEnemies[0];
-            if(mainPlayer == null) { return; }
+            if (mainPlayer == null) { return; }
 
             Vector3 lookPosition = mainPlayer.transform.position;
             lookPosition.y = _animationEvents.transform.position.y;
